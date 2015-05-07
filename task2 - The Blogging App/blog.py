@@ -8,6 +8,19 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+class Category(Base):
+    __tablename__ = 'category'
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+
+class Post(Base):
+    __tablename__ = 'post'
+    id = Column(Integer, primary_key=True)
+    title = Column(String(100))
+    Content = Column(String(5000))
+    category_id = Column(Integer, ForeignKey('category.id'))
+    category = relationship(Category)
+
 
 class BlogBaseController(CementBaseController):
     class Meta:
@@ -17,12 +30,12 @@ class BlogBaseController(CementBaseController):
             (['--base-opt'], dict(help="option under base controller")),
         ]
 
-    @expose(help="base controller default option", hide=True)
+    @expose(help="This creates the database", hide=True)
     def default(self):
-        print "base Default"
-
-
-# Create DB here
+        print "base Default---->>> Creating DATABASE"
+        # Create DB here
+        engine = create_engine('sqlite:///blogapp.db')
+        Base.metadata.create_all(engine)
 
 
 class PostController(CementBaseController):
@@ -93,7 +106,7 @@ def main():
         handler.register(CategoryController)
         app.setup()
         app.run()
-        print "HI"
+#        print "HI"
     finally:
         app.close()
 
