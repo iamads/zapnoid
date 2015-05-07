@@ -75,8 +75,15 @@ class PostController(CementBaseController):
     def list(self):
         print "In list all posts"
 
-    # implement listing of all posts
-    # with post-id and title
+        # implement listing of all posts
+        # with post-id and title
+        engine = create_engine('sqlite:///blogapp.db')
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+
+        for instance in session.query(Post):
+            print "id = " + str(instance.id) + "   Title = " + instance.title
 
     @expose(help="Search in all posts", hide=True)
     def search(self):
@@ -105,7 +112,7 @@ class CategoryController(CementBaseController):
     def list(self):
         print "list all category"
 
-    #       implement listing a category
+    # implement listing a category
 
     @expose(help="Assigning category to a post", hide=True)
     def assign(self):
@@ -113,7 +120,7 @@ class CategoryController(CementBaseController):
 
 
 # check if post has cat-id,if it has ask user if he wants to change
-#       if user confirms do it
+# if user confirms do it
 
 def main():
     app = foundation.CementApp('blog')
