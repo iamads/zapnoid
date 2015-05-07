@@ -100,19 +100,43 @@ class CategoryController(CementBaseController):
         description = 'This is category controller'
         arguments = [
             (['--2nd-opt'], dict(help="yet another option under base controller")),
+            (['extra_arguments'], dict(action='store', nargs='*')),
         ]
 
     @expose(help="Add a new category", hide=True)
     def add(self):
         print "add a new category"
+        if self.app.pargs.extra_arguments:
+            category_name = self.app.pargs.extra_arguments[0]
+        engine = create_engine('sqlite:///blogapp.db')
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+
+        category = Category(name=category_name)
+        session.add(category)
+        session.commit()
+        print "Category added"
+
+
 
     # implement adding a category
+
 
     @expose(help="List all categories", hide=True)
     def list(self):
         print "list all category"
 
     # implement listing a category
+    # with category_id and name
+        engine = create_engine('sqlite:///blogapp.db')
+        Base.metadata.bind = engine
+        DBSession = sessionmaker(bind=engine)
+        session = DBSession()
+
+        for instance in session.query(Category):
+            print "id = " + str(instance.id) + "   Title = " + instance.name
+
 
     @expose(help="Assigning category to a post", hide=True)
     def assign(self):
