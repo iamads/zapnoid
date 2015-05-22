@@ -51,22 +51,22 @@ domain_name = raw_input("domain_name >")
 os.system("echo \"127.0.0.1     \"" + domain_name)
 
 # PHP config Setup
-
-os.system("sed \'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/\' /etc/php5/fpm/php.ini")
+os.system("echo \"cgi.fix_pathinfo=0\" >> /etc/php5/fpm/php.ini")
+# os.system("sed \'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/\' /etc/php5/fpm/php.ini")
 # os.system("sed \'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/\' /etc/php5/fpm/pool.d/www.conf")
 os.system("service php5-fpm restart")
 # PHP done
 
 # WordPress config Setup
-os.system("wget http://wordpress.org/latest.tar.gz")
-os.system("tar -xzvf latest.tar.gz")
+os.system("wget http://wordpress.org/latest.tar.gz -P /tmp/")
+os.system("tar -xzvf /tmp/latest.tar.gz")
 os.system("chmod 744 database.sh")
 os.system("bash database.sh " + mysql_pass)
 # Leaving wordpress details for now
 
 # continuing
 os.system("mkdir -p /usr/share/nginx/html")
-os.system("cp -r ~/wordpress/* /usr/share/nginx/html")
+os.system("cp -r /tmp/wordpress/* /usr/share/nginx/html")
 os.system("chown www-data:www-data /usr/share/nginx/html/* -R ")
 os.system("usermod -a -G www-data root")
 os.system("cp /etc/nginx/sites-available/default /etc/nginx/sites-available/wordpress")
