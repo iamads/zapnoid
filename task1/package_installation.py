@@ -17,9 +17,9 @@ while True:
     mysql_pass = raw_input("MySql password >")
     confirm_mysql_pass = raw_input("Confirm Mysql password >")
     if mysql_pass == confirm_mysql_pass:
-        os.system("sudo debconf-set-selections <<< \'mysql-server mysql-server/root_password password \'" + mysql_pass)
+        os.system("debconf-set-selections <<< \'mysql-server mysql-server/root_password password " + mysql_pass + "\'")
         os.system(
-            "sudo debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password \'" + mysql_pass)
+            "debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password " + mysql_pass + "\'")
         break
     else:
         print "Sorry , Passwords do not match, try again"
