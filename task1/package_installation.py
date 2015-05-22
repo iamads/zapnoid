@@ -19,10 +19,10 @@ while True:
     mysql_pass = raw_input("MySql password >")
     confirm_mysql_pass = raw_input("Confirm Mysql password >")
     if mysql_pass == confirm_mysql_pass:
-        subprocess.Popen(
-            "debconf-set-selections <<< \'mysql-server mysql-server/root_password password " + mysql_pass + "\'")
-        subprocess.Popen(
-            "debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password " + mysql_pass + "\'")
+        os.system(
+            "echo \"mysql-server-5.5 mysql-server/root_password password \"" + mysql_pass + " | debconf-set-selections")
+        os.system(
+            "echo \"mysql-server-5.5 mysql-server/root_password_again password root\"" + mysql_pass + " | debconf-set-selections")
         break
     else:
         print "Sorry , Passwords do not match, try again"
