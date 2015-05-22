@@ -13,6 +13,7 @@ os.system(
     "echo \"deb http://ppa.launchpad.net/nginx/stable/ubuntu " + release + " main\" | sudo tee /etc/apt/sources.list.d/nginx-stable.list")
 os.system("apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C")
 os.system("apt-get update")
+os.system("apt-get install debconf-utils")
 # Mysql Password
 while True:
     mysql_pass = raw_input("MySql password >")
