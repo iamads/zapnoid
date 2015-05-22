@@ -15,9 +15,10 @@ os.system("apt-get update")
 while True:
     mysql_pass = raw_input("MySql password >")
     confirm_mysql_pass = raw_input("Confirm Mysql password >")
-    if mysql_pass==confirm_mysql_pass:
+    if mysql_pass == confirm_mysql_pass:
         os.system("sudo debconf-set-selections <<< \'mysql-server mysql-server/root_password password \'" + mysql_pass)
-        os.system("sudo debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password \'"+ mysql_pass)
+        os.system(
+            "sudo debconf-set-selections <<< \'mysql-server mysql-server/root_password_again password \'" + mysql_pass)
         break
     else:
         print "Sorry , Passwords do not match, try again"
@@ -39,7 +40,24 @@ for package_name in packages_to_install:
     except Exception, arg:
         print >> sys.stderr, "Sorry, package installation failed [{err}]".format(err=str(arg))
 
-with open("/etc/php5/fpm/php.ini", "a") as php_config:
-    php_config.write("cgi.fix_pathinfo=0")
+# Packages installed
 
+# GETTING DOMAIN NAME
+domain_name = raw_input("domain_name >")
+os.system("echo \"127.0.0.1     \"" + domain_name)
+
+# PHP config Setup
+
+os.system("sed \'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/\' /etc/php5/fpm/php.ini")
+#os.system("sed \'s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/\' /etc/php5/fpm/pool.d/www.conf")
 os.system("service php5-fpm restart")
+#PHP done
+
+# WordPress config Setup
+
+
+# Nginx config setup
+os.system("service nginx restart")
+
+
+
