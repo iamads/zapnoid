@@ -5,6 +5,7 @@ import apt
 import sys
 import os
 import lsb_release
+from string import Template
 
 release = lsb_release.get_distro_information()['CODENAME']
 os.system(
@@ -69,6 +70,10 @@ os.system("cp /etc/nginx/sites-available/default /etc/nginx/sites-available/word
 # wordpress shit finished
 
 # Nginx config setup
+os.system("mv /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.backup")
+os.system("python nginx_conf_generator.py " + domain_name + " >> /etc/nginx/sites-available/wordpress")
+os.system("chmod 744 /etc/nginx/sites-available/wordpress")
+os.system("ln -s /etc/nginx/sites-available/wordpress /etc/nginx/sites-enabled/wordpress")
 os.system("service nginx restart")
 
 
