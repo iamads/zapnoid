@@ -59,7 +59,7 @@ os.system("service php5-fpm restart")
 
 # WordPress config Setup
 os.system("wget http://wordpress.org/latest.tar.gz -P /tmp/")
-os.system("tar -xzvf /tmp/latest.tar.gz")
+os.system("tar -xzf -C /tmp/latest.tar.gz")
 os.system("chmod 744 database.sh")
 os.system("bash database.sh " + mysql_pass)
 # Leaving wordpress details for now
