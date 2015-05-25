@@ -66,7 +66,7 @@ os.system("bash database.sh " + mysql_pass)
 
 # continuing
 os.system("mkdir -p /usr/share/nginx/html")
-os.system("cp -r /tmp/wordpress/* /usr/share/nginx/html/")
+os.system("cp -r wordpress/* /usr/share/nginx/html/")
 os.system("chown www-data:www-data /usr/share/nginx/html/* -R ")
 os.system("usermod -a -G www-data root")
 os.system("cp /etc/nginx/sites-available/default /etc/nginx/sites-available/wordpress")
