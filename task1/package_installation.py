@@ -22,7 +22,7 @@ while True:
         os.system(
             "echo \"mysql-server-5.5 mysql-server/root_password password \"" + mysql_pass + " | debconf-set-selections")
         os.system(
-            "echo \"mysql-server-5.5 mysql-server/root_password_again password root\"" + mysql_pass + " | debconf-set-selections")
+            "echo \"mysql-server-5.5 mysql-server/root_password_again password \"" + mysql_pass + " | debconf-set-selections")
         break
     else:
         print "Sorry , Passwords do not match, try again"
@@ -59,14 +59,14 @@ os.system("service php5-fpm restart")
 
 # WordPress config Setup
 os.system("wget http://wordpress.org/latest.tar.gz -P /tmp/")
-os.system("tar -xzf -C /tmp/latest.tar.gz")
-os.system("chmod 744 database.sh")
+os.system("chmod 744 database.sh /tmp/latest.tar.gz")
+subprocess.Popen(['tar', '-xzf', '/tmp/latest.tar.gz'])
 os.system("bash database.sh " + mysql_pass)
 # Leaving wordpress details for now
 
 # continuing
 os.system("mkdir -p /usr/share/nginx/html")
-os.system("cp -r /tmp/wordpress/* /usr/share/nginx/html")
+os.system("cp -r /tmp/wordpress/* /usr/share/nginx/html/")
 os.system("chown www-data:www-data /usr/share/nginx/html/* -R ")
 os.system("usermod -a -G www-data root")
 os.system("cp /etc/nginx/sites-available/default /etc/nginx/sites-available/wordpress")
